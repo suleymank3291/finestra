@@ -8,33 +8,40 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
-const SLIDES = [
+type Slide = {
+  type: "image" | "video";
+  src: string;
+  heading: string[];
+  sub: string;
+};
+
+const SLIDES: Slide[] = [
   {
-    type: "image" as const,
+    type: "image",
     src: "/media/hero-f1.jpg",
     heading: ["Şehrin kalbinde", "bir nefes."],
     sub: "Nitelikli kahve, el yapımı çikolata, taze çiçek.",
   },
   {
-    type: "image" as const,
+    type: "image",
     src: "/media/hero-f2.jpg",
     heading: ["Her yudumda", "bir hikâye."],
     sub: "Aşıkbaba yöresi çekirdeklerinden demlenen taze kahve.",
   },
   {
-    type: "image" as const,
+    type: "image",
     src: "/media/hero-f3.jpg",
     heading: ["Doğanın renkleri,", "sofranızda."],
     sub: "Taze çiçekler, özenle hazırlanmış buketler, hediyeler.",
   },
   {
-    type: "image" as const,
+    type: "image",
     src: "/media/hero-f4.jpg",
     heading: ["El yapımı", "çikolata sanatı."],
     sub: "Her parçada sabır, ustalık ve en seçkin kakao.",
   },
   {
-    type: "image" as const,
+    type: "image",
     src: "/media/hero-f5.jpg",
     heading: ["Anılarınıza layık", "bir lezzet."],
     sub: "Özel günler için özel reçeteler, Finestra mutfağından.",
