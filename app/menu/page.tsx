@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useLayoutEffect, useEffect } from "react";
+import { useState, useRef, useCallback, useLayoutEffect, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
@@ -28,7 +28,7 @@ const KATEGORILER = [
 
 const N = KATEGORILER.length;
 
-export default function MenuSayfasi() {
+function MenuContent() {
   const searchParams = useSearchParams();
   const baslangicIdx = Math.max(
     0,
@@ -179,5 +179,13 @@ export default function MenuSayfasi() {
       </main>
       <Footer />
     </>
+  );
+}
+
+export default function MenuSayfasi() {
+  return (
+    <Suspense>
+      <MenuContent />
+    </Suspense>
   );
 }
