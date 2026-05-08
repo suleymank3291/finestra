@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+/* ── Finestra Design System ── */
+:root {
+  --bg-color: #FCFCFC;
+  --primary-accent: #2C3E2D;
+  --secondary-accent: #C4A47C;
+  --text-main: #1A1A1A;
+  --text-muted: #6B6B6B;
+  --bg-warm: #CCA47A;
+}
+
+/* Tailwind v4 theme — custom font utilities & colors */
+@theme inline {
+  --font-playfair: var(--font-playfair-face), Georgia, serif;
+  --font-montserrat: var(--font-montserrat-face), Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-montserrat-face), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global hover transition */
+a,
+button {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Zarif gölge */
+.shadow-elegant {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+/* Scrollbar gizle (müşteri yorumları yatay scroll) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

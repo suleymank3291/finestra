@@ -1,0 +1,617 @@
+"use client";
+
+import { useState, useRef, useCallback, useLayoutEffect, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import gsap from "gsap";
+
+type Urun     = { isim: string; fiyat: string };
+type AltGrup  = { baslik: string; gorselSol: boolean; gorsel: string; urunler: Urun[] };
+type Kategori = { slug: string; isim: string; altGruplar: AltGrup[] };
+
+const KATEGORILER: Kategori[] = [
+  {
+    slug: "kahvalti-firin",
+    isim: "Kahvaltı & Fırın",
+    altGruplar: [
+      {
+        baslik: "Sahanda & Omlet",
+        gorselSol: true,
+        gorsel: "/media/cat-1.jpg",
+        urunler: [
+          { isim: "Sucuklu Yumurta",                  fiyat: "390 ₺" },
+          { isim: "Menemen",                           fiyat: "340 ₺" },
+          { isim: "Yumurta",                           fiyat: "190 ₺" },
+          { isim: "Kavurmalı Yumurta",                 fiyat: "590 ₺" },
+          { isim: "Sade Omlet",                        fiyat: "255 ₺" },
+          { isim: "Peynirli Omlet",                    fiyat: "315 ₺" },
+          { isim: "Sebzeli Omlet",                     fiyat: "295 ₺" },
+        ],
+      },
+      {
+        baslik: "Tostlar, Simitler & Ekmek Üstü",
+        gorselSol: false,
+        gorsel: "/media/cat-9.jpg",
+        urunler: [
+          { isim: "Sucuk Ekmek",                       fiyat: "490 ₺" },
+          { isim: "K. Peynirli Tost",                  fiyat: "290 ₺" },
+          { isim: "Sucuklu K. Tost",                   fiyat: "390 ₺" },
+          { isim: "Kavurmalı K. Tost",                 fiyat: "475 ₺" },
+          { isim: "Haşhaşlı Simit",                    fiyat: "325 ₺" },
+          { isim: "Avokadolu Simit",                   fiyat: "325 ₺" },
+          { isim: "French Toast",                      fiyat: "445 ₺" },
+          { isim: "Poşe Yumurtalı Avokadolu Ekmek",   fiyat: "445 ₺" },
+        ],
+      },
+      {
+        baslik: "Kahvaltı Tabakları & Mengen Serpme",
+        gorselSol: true,
+        gorsel: "/media/cat-2.jpg",
+        urunler: [
+          { isim: "Sıcak Kahvaltı",                    fiyat: "595 ₺" },
+          { isim: "Avokadolu Kahvaltı",                fiyat: "595 ₺" },
+          { isim: "Mengen Kahvaltı Sucuklu",           fiyat: "590 ₺" },
+          { isim: "Mengen Kahvaltı Menemen ile",       fiyat: "540 ₺" },
+          { isim: "Mengen Kahvaltı Yumurtalı",         fiyat: "390 ₺" },
+          { isim: "Mengen Kahvaltı Kavurmalı",         fiyat: "790 ₺" },
+        ],
+      },
+      {
+        baslik: "Fırından Kişler",
+        gorselSol: false,
+        gorsel: "/media/cat-10.jpg",
+        urunler: [
+          { isim: "Üç Peynirli Kiş",                  fiyat: "275 ₺" },
+          { isim: "Mantarlı Kiş",                      fiyat: "275 ₺" },
+          { isim: "Ispanaklı Kiş",                     fiyat: "275 ₺" },
+          { isim: "Kabaklı Kiş",                       fiyat: "275 ₺" },
+          { isim: "Patlıcanlı Kiş",                    fiyat: "275 ₺" },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "ana-yemekler",
+    isim: "Ana Yemekler",
+    altGruplar: [
+      {
+        baslik: "El Yapımı Burgerler",
+        gorselSol: true,
+        gorsel: "/media/cat-3.jpg",
+        urunler: [
+          { isim: "Cheeseburger",                      fiyat: "495 ₺" },
+          { isim: "Classicburger",                     fiyat: "465 ₺" },
+          { isim: "Mexicanburger",                     fiyat: "495 ₺" },
+          { isim: "Chickenburger",                     fiyat: "395 ₺" },
+        ],
+      },
+      {
+        baslik: "Kaseler",
+        gorselSol: false,
+        gorsel: "/media/cat-4.jpg",
+        urunler: [
+          { isim: "Kase Köfte",                        fiyat: "550 ₺" },
+          { isim: "Kase Tavuk",                        fiyat: "540 ₺" },
+          { isim: "Kase Et",                           fiyat: "590 ₺" },
+        ],
+      },
+      {
+        baslik: "Makarnalar",
+        gorselSol: true,
+        gorsel: "/media/cat-11.jpg",
+        urunler: [
+          { isim: "Fettucinio Alfredo",                fiyat: "560 ₺" },
+          { isim: "Penne Arabiata",                    fiyat: "490 ₺" },
+          { isim: "Linguini",                          fiyat: "490 ₺" },
+          { isim: "Etli Noodle",                       fiyat: "675 ₺" },
+          { isim: "Köfteli Makarna",                   fiyat: "550 ₺" },
+          { isim: "Tortelini Mozzarella",              fiyat: "495 ₺" },
+          { isim: "Tortelini Pesto",                   fiyat: "495 ₺" },
+        ],
+      },
+      {
+        baslik: "Taze Salatalar",
+        gorselSol: false,
+        gorsel: "/media/cat-5.jpg",
+        urunler: [
+          { isim: "Tavuklu Sezar Salata",              fiyat: "490 ₺" },
+          { isim: "Izgara Etli Salata",                fiyat: "675 ₺" },
+          { isim: "Izgara Hellim Salata",              fiyat: "490 ₺" },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "tatlilar",
+    isim: "Tatlılar",
+    altGruplar: [
+      {
+        baslik: "Cup Tatlılar & Magnolya",
+        gorselSol: true,
+        gorsel: "/media/cat-6.jpg",
+        urunler: [
+          { isim: "Finestra Cup",                      fiyat: "390 ₺" },
+          { isim: "Lotus Magnolya",                    fiyat: "345 ₺" },
+          { isim: "Çilekli Magnolya",                  fiyat: "290 ₺" },
+          { isim: "Muzlu Magnolya",                    fiyat: "290 ₺" },
+          { isim: "Violetta",                          fiyat: "350 ₺" },
+          { isim: "Ice Violetta",                      fiyat: "350 ₺" },
+          { isim: "Luna Cup",                          fiyat: "325 ₺" },
+        ],
+      },
+      {
+        baslik: "Özel Tatlılar",
+        gorselSol: false,
+        gorsel: "/media/cat-7.jpg",
+        urunler: [
+          { isim: "Mont Blanc",                        fiyat: "475 ₺" },
+          { isim: "Portakallı Cheese Brülée",          fiyat: "370 ₺" },
+          { isim: "Rotolo",                            fiyat: "370 ₺" },
+          { isim: "Tiramisu",                          fiyat: "375 ₺" },
+          { isim: "Orsetto",                           fiyat: "435 ₺" },
+          { isim: "Tiramisu Truffle",                  fiyat: "375 ₺" },
+          { isim: "Japon Pankek",                      fiyat: "450 ₺" },
+        ],
+      },
+      {
+        baslik: "Cheesecake, Sebastian & Waffle",
+        gorselSol: true,
+        gorsel: "/media/cat-8.jpg",
+        urunler: [
+          { isim: "Sebastian",                         fiyat: "250 ₺" },
+          { isim: "Çikolatalı Sebastian",              fiyat: "350 ₺" },
+          { isim: "M. Cheesecake",                     fiyat: "290 ₺" },
+          { isim: "Lotus Cheesecake",                  fiyat: "345 ₺" },
+          { isim: "Finestra Waffle",                   fiyat: "450 ₺" },
+          { isim: "Planet Queen",                      fiyat: "500 ₺" },
+          { isim: "Patara",                            fiyat: "450 ₺" },
+        ],
+      },
+      {
+        baslik: "Sufle, Çikolata & Pasta",
+        gorselSol: false,
+        gorsel: "/media/cat-9.jpg",
+        urunler: [
+          { isim: "Çikolatalı Sufle",                  fiyat: "295 ₺" },
+          { isim: "Antep Sufle",                       fiyat: "370 ₺" },
+          { isim: "Crème Brûlée",                      fiyat: "330 ₺" },
+          { isim: "Belçika Çikolatalı Profiterol",     fiyat: "425 ₺" },
+          { isim: "Fondü",                             fiyat: "455 ₺" },
+          { isim: "Kadayıflı Antep Çikolata",          fiyat: "455 ₺" },
+          { isim: "Çikolatalı Redvelvet",              fiyat: "395 ₺" },
+          { isim: "Black Forest",                      fiyat: "395 ₺" },
+          { isim: "Orman Meyveli Brownie",             fiyat: "355 ₺" },
+          { isim: "Ankara Sarma",                      fiyat: "290 ₺" },
+          { isim: "Ti Amo",                            fiyat: "325 ₺" },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "soguk-icecekler",
+    isim: "Soğuk İçecekler",
+    altGruplar: [
+      {
+        baslik: "Özel Karışımlar & Frozen",
+        gorselSol: true,
+        gorsel: "/media/cat-10.jpg",
+        urunler: [
+          { isim: "Cool Lime",                         fiyat: "245 ₺" },
+          { isim: "Berry Hibiscus",                    fiyat: "245 ₺" },
+          { isim: "Strawberry Cool Lime",              fiyat: "245 ₺" },
+          { isim: "Finestra Frozen",                   fiyat: "245 ₺" },
+          { isim: "Mango Orange Frozen",               fiyat: "245 ₺" },
+          { isim: "Çilekli Frozen",                    fiyat: "245 ₺" },
+          { isim: "Karpuzlu Frozen",                   fiyat: "245 ₺" },
+        ],
+      },
+      {
+        baslik: "Ice Tea, Milkshake & Limonata",
+        gorselSol: false,
+        gorsel: "/media/cat-11.jpg",
+        urunler: [
+          { isim: "Finestra Ice Tea",                  fiyat: "245 ₺" },
+          { isim: "Mango Orange Ice Tea",              fiyat: "245 ₺" },
+          { isim: "Peach Ice Tea",                     fiyat: "245 ₺" },
+          { isim: "Çikolatalı Milkshake",              fiyat: "245 ₺" },
+          { isim: "Muzlu Milkshake",                   fiyat: "245 ₺" },
+          { isim: "Çilekli Milkshake",                 fiyat: "245 ₺" },
+          { isim: "Limonata",                          fiyat: "190 ₺" },
+          { isim: "Sıkma Portakal Suyu",               fiyat: "265 ₺" },
+        ],
+      },
+      {
+        baslik: "Sürahide Paylaşımlık",
+        gorselSol: true,
+        gorsel: "/media/cat-12.jpg",
+        urunler: [
+          { isim: "Finestra Ice Tea (Sürahi)",         fiyat: "700 ₺" },
+          { isim: "Mango Orange Ice Tea (Sürahi)",     fiyat: "700 ₺" },
+          { isim: "Peach Ice Tea (Sürahi)",            fiyat: "700 ₺" },
+          { isim: "Limonata (Sürahi)",                 fiyat: "700 ₺" },
+          { isim: "Çilek Limonata (Sürahi)",           fiyat: "700 ₺" },
+          { isim: "Mango Portakal (Sürahi)",           fiyat: "700 ₺" },
+        ],
+      },
+      {
+        baslik: "Maden Suları, Gazlılar & Ayran",
+        gorselSol: false,
+        gorsel: "/media/cat-1.jpg",
+        urunler: [
+          { isim: "Churchill",                         fiyat: "120 ₺" },
+          { isim: "Soda Limon",                        fiyat: "120 ₺" },
+          { isim: "Meyveli Maden Suyu",                fiyat: "95 ₺"  },
+          { isim: "Beypazarı Maden Suyu",              fiyat: "90 ₺"  },
+          { isim: "Özerhisar Ayran",                   fiyat: "85 ₺"  },
+          { isim: "Pepsi Cola",                        fiyat: "85 ₺"  },
+          { isim: "Uludağ Portakallı",                 fiyat: "85 ₺"  },
+          { isim: "Su",                                fiyat: "75 ₺"  },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "sicak-icecekler",
+    isim: "Sıcak İçecekler",
+    altGruplar: [
+      {
+        baslik: "Sıcak İçecekler",
+        gorselSol: true,
+        gorsel: "/media/cat-2.jpg",
+        urunler: [
+          { isim: "Demleme Bardak Çay",                fiyat: "75 ₺"  },
+          { isim: "Demleme Kupa Çay",                  fiyat: "110 ₺" },
+          { isim: "Sıcak Çikolata",                    fiyat: "250 ₺" },
+          { isim: "Chai Tea Latte",                    fiyat: "250 ₺" },
+          { isim: "Salep",                             fiyat: "225 ₺" },
+          { isim: "Yeşil Çay",                         fiyat: "225 ₺" },
+          { isim: "Papatya Çayı",                      fiyat: "225 ₺" },
+          { isim: "Ihlamur",                           fiyat: "225 ₺" },
+          { isim: "Kekik Çayı",                        fiyat: "225 ₺" },
+          { isim: "Adaçayı",                           fiyat: "225 ₺" },
+          { isim: "Elma Çayı",                         fiyat: "225 ₺" },
+          { isim: "Limon Çayı",                        fiyat: "225 ₺" },
+          { isim: "Kuşburnu",                          fiyat: "225 ₺" },
+          { isim: "Oolong Çayı",                       fiyat: "225 ₺" },
+          { isim: "Nane Limon",                        fiyat: "225 ₺" },
+        ],
+      },
+      {
+        baslik: "Özel Harman Çaylar",
+        gorselSol: false,
+        gorsel: "/media/cat-3.jpg",
+        urunler: [
+          { isim: "Tarçın ve Karanfilli Siyah Çay",   fiyat: "225 ₺" },
+          { isim: "Yaseminli Yeşil Çay",               fiyat: "225 ₺" },
+          { isim: "Melisalı Yeşil Çay",               fiyat: "225 ₺" },
+          { isim: "Portakal Güllü Yeşil Çay",         fiyat: "225 ₺" },
+          { isim: "Masala Çayı",                       fiyat: "225 ₺" },
+          { isim: "Orman Meyveleri",                   fiyat: "235 ₺" },
+          { isim: "Kış Çayı",                          fiyat: "235 ₺" },
+          { isim: "Bahar Çayı",                        fiyat: "235 ₺" },
+          { isim: "Form Çayı",                         fiyat: "235 ₺" },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "kahveler",
+    isim: "Kahveler",
+    altGruplar: [
+      {
+        baslik: "Klasik Kahveler",
+        gorselSol: true,
+        gorsel: "/media/cat-4.jpg",
+        urunler: [
+          { isim: "Filtre Kahve",                      fiyat: "190 ₺" },
+          { isim: "Sütlü Filtre Kahve",                fiyat: "195 ₺" },
+          { isim: "Espresso",                          fiyat: "120 ₺" },
+          { isim: "Espresso Macchiato",                fiyat: "130 ₺" },
+          { isim: "Americano",                         fiyat: "220 ₺" },
+          { isim: "Kaffe Latte",                       fiyat: "240 ₺" },
+          { isim: "Cappuccino",                        fiyat: "240 ₺" },
+          { isim: "Flat White",                        fiyat: "220 ₺" },
+          { isim: "Cortado",                           fiyat: "220 ₺" },
+          { isim: "Mocha",                             fiyat: "250 ₺" },
+        ],
+      },
+      {
+        baslik: "Aromalı Latte & Mocha",
+        gorselSol: false,
+        gorsel: "/media/cat-5.jpg",
+        urunler: [
+          { isim: "White Chocolate Mocha",             fiyat: "250 ₺" },
+          { isim: "Caramel Macchiato",                 fiyat: "250 ₺" },
+          { isim: "Caramel Latte",                     fiyat: "250 ₺" },
+          { isim: "Salted Caramel Latte",              fiyat: "250 ₺" },
+          { isim: "Vanilya Latte",                     fiyat: "250 ₺" },
+          { isim: "Affogato",                          fiyat: "250 ₺" },
+        ],
+      },
+      {
+        baslik: "Buzlu Kahveler",
+        gorselSol: true,
+        gorsel: "/media/cat-6.jpg",
+        urunler: [
+          { isim: "Iced Americano",                    fiyat: "220 ₺" },
+          { isim: "Iced Latte",                        fiyat: "240 ₺" },
+          { isim: "Iced Mocha",                        fiyat: "250 ₺" },
+          { isim: "Iced White Choco Mocha",            fiyat: "250 ₺" },
+          { isim: "Ice Caramel Latte",                 fiyat: "250 ₺" },
+        ],
+      },
+      {
+        baslik: "Matcha Serisi",
+        gorselSol: false,
+        gorsel: "/media/cat-7.jpg",
+        urunler: [
+          { isim: "Matcha Strawberry",                 fiyat: "295 ₺" },
+          { isim: "Matcha Peach",                      fiyat: "295 ₺" },
+          { isim: "Matcha Mango",                      fiyat: "295 ₺" },
+          { isim: "Matcha Blueberry",                  fiyat: "295 ₺" },
+          { isim: "Matcha Latte",                      fiyat: "270 ₺" },
+          { isim: "Matcha Ice Tea",                    fiyat: "245 ₺" },
+        ],
+      },
+      {
+        baslik: "Özel & Geleneksel Kahveler",
+        gorselSol: true,
+        gorsel: "/media/cat-8.jpg",
+        urunler: [
+          { isim: "Türk Kahvesi",                      fiyat: "180 ₺" },
+          { isim: "Damla Sakızlı Türk Kahvesi",        fiyat: "180 ₺" },
+          { isim: "Dibek Kahvesi",                     fiyat: "190 ₺" },
+          { isim: "V60",                               fiyat: "300 ₺" },
+          { isim: "V60 Double",                        fiyat: "450 ₺" },
+          { isim: "Zebra Mocha",                       fiyat: "270 ₺" },
+          { isim: "Pumpkin Spice",                     fiyat: "250 ₺" },
+          { isim: "Snicker's",                         fiyat: "250 ₺" },
+          { isim: "Kavrulmuş Badem",                   fiyat: "250 ₺" },
+          { isim: "Winter Queen",                      fiyat: "270 ₺" },
+          { isim: "Cookie Latte",                      fiyat: "250 ₺" },
+        ],
+      },
+    ],
+  },
+];
+
+const N = KATEGORILER.length;
+
+function UrunSatiri({ isim, fiyat }: Urun) {
+  return (
+    <div className="flex items-end py-[14px] border-b" style={{ borderColor: "rgba(44,62,45,0.08)" }}>
+      <span
+        className="shrink-0 font-montserrat font-light text-sm md:text-base leading-tight pb-[2px]"
+        style={{ color: "var(--text-main)" }}
+      >
+        {isim}
+      </span>
+      <span
+        className="flex-1 mx-3 md:mx-5"
+        style={{
+          display: "inline-block",
+          backgroundImage: "radial-gradient(circle, rgba(44,62,45,0.22) 1.5px, transparent 1.5px)",
+          backgroundSize: "7px 7px",
+          backgroundRepeat: "repeat-x",
+          backgroundPosition: "left bottom 4px",
+          height: "1em",
+          minWidth: 0,
+        }}
+      />
+      <span
+        className="shrink-0 font-montserrat font-medium text-sm md:text-base tabular-nums pb-[2px]"
+        style={{ color: "#C4A47C" }}
+      >
+        {fiyat}
+      </span>
+    </div>
+  );
+}
+
+function AltGrupBlok({ grup }: { grup: AltGrup }) {
+  return (
+    <div className="mb-14 md:mb-20">
+      <div className="flex items-center gap-4 mb-7">
+        <span className="inline-block w-5 h-px shrink-0" style={{ backgroundColor: "#C4A47C" }} />
+        <h3
+          className="font-playfair text-lg md:text-2xl italic leading-none"
+          style={{ color: "var(--primary-accent)" }}
+        >
+          {grup.baslik}
+        </h3>
+        <div className="flex-1 h-px" style={{ backgroundColor: "rgba(196,164,124,0.2)" }} />
+      </div>
+      <div
+        className={`flex flex-col md:flex-row items-stretch gap-7 md:gap-12 ${
+          !grup.gorselSol ? "md:flex-row-reverse" : ""
+        }`}
+      >
+        <div className="shrink-0 w-full md:w-[260px] rounded-2xl overflow-hidden self-stretch min-h-[220px] relative">
+          <Image src={grup.gorsel} alt={grup.baslik} fill className="object-cover" />
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col justify-center">
+          {grup.urunler.map((u) => (
+            <UrunSatiri key={u.isim} {...u} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KategoriPanel({ kat }: { kat: Kategori }) {
+  return (
+    <div className="max-w-5xl mx-auto px-6 md:px-10 py-12 md:py-18">
+      <div className="mb-10 md:mb-14">
+        <p
+          className="font-montserrat text-[10px] font-semibold tracking-[0.3em] uppercase mb-3"
+          style={{ color: "rgba(196,164,124,0.65)" }}
+        >
+          Finestra Menüsü
+        </p>
+        <h2
+          className="font-playfair text-5xl md:text-7xl italic leading-none"
+          style={{ color: "var(--primary-accent)" }}
+        >
+          {kat.isim}
+        </h2>
+        <div className="mt-4 h-[2px] w-16 rounded-full" style={{ backgroundColor: "#C4A47C" }} />
+      </div>
+      {kat.altGruplar.map((grup) => (
+        <AltGrupBlok key={grup.baslik} grup={grup} />
+      ))}
+    </div>
+  );
+}
+
+export default function MenuSayfasi() {
+  const searchParams = useSearchParams();
+  const baslangicIdx = Math.max(0, KATEGORILER.findIndex(k => k.slug === searchParams.get("k")));
+
+  const [aktifIdx, setAktifIdx]  = useState(baslangicIdx);
+  const aktifIdxRef  = useRef(baslangicIdx);
+  const stripRef     = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const panelRefs    = useRef<(HTMLDivElement | null)[]>([]);
+  const tweenRef     = useRef<gsap.core.Tween | null>(null);
+  const progressObj  = useRef({ v: baslangicIdx });
+
+  useLayoutEffect(() => {
+    const panel = panelRefs.current[baslangicIdx];
+    if (containerRef.current && panel)
+      containerRef.current.style.height = `${panel.scrollHeight}px`;
+    if (stripRef.current && baslangicIdx > 0)
+      gsap.set(stripRef.current, { x: `-${baslangicIdx * (100 / N)}%` });
+  }, [baslangicIdx]);
+
+  useEffect(() => {
+    const panel = panelRefs.current[aktifIdx];
+    if (containerRef.current && panel)
+      containerRef.current.style.height = `${panel.scrollHeight}px`;
+  }, [aktifIdx]);
+
+  const goToKat = useCallback((idx: number) => {
+    if (idx === aktifIdxRef.current) return;
+    tweenRef.current?.kill();
+    aktifIdxRef.current = idx;
+    setAktifIdx(idx);
+    const dist = Math.abs(idx - progressObj.current.v);
+    tweenRef.current = gsap.to(progressObj.current, {
+      v: idx,
+      duration: 0.55 + dist * 0.1,
+      ease: "power3.inOut",
+      onUpdate() {
+        if (stripRef.current)
+          gsap.set(stripRef.current, { x: `-${progressObj.current.v * (100 / N)}%` });
+      },
+      onComplete() {
+        const panel = panelRefs.current[idx];
+        if (containerRef.current && panel)
+          containerRef.current.style.height = `${panel.scrollHeight}px`;
+      },
+    });
+  }, []);
+
+  return (
+    <>
+      <Navbar />
+      <main data-navbar-color="#2C3E2D" className="pt-28 md:pt-36" style={{ backgroundColor: "var(--bg-color)" }}>
+
+        {/* Başlık */}
+        <div className="max-w-5xl mx-auto px-6 md:px-10 pt-8 pb-2 text-center">
+          <h1 className="font-playfair text-6xl md:text-8xl italic" style={{ color: "var(--primary-accent)" }}>
+            Menümüz
+          </h1>
+          <p className="font-montserrat text-sm mt-3" style={{ color: "var(--text-muted)" }}>
+            El yapımı lezzetler, nitelikli içecekler.
+          </p>
+        </div>
+
+        {/* Sticky kategori sekmesi */}
+        <div
+          className="sticky top-0 z-40 mt-8"
+          style={{ backgroundColor: "var(--bg-color)", borderBottom: "1px solid rgba(44,62,45,0.08)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 md:px-16">
+            <div className="flex items-center py-4 justify-between w-full gap-2">
+              {KATEGORILER.map((k, i) => {
+                const aktif = i === aktifIdx;
+                return (
+                  <button
+                    key={k.slug}
+                    onClick={() => goToKat(i)}
+                    className="relative shrink-0 pb-2 font-montserrat text-[10px] md:text-xs font-medium tracking-widest uppercase transition-colors duration-300 text-center"
+                    style={{ color: aktif ? "#2C3E2D" : "rgba(44,62,45,0.35)" }}
+                  >
+                    {k.isim}
+                    <span
+                      className="absolute bottom-0 left-0 w-full h-[1.5px] rounded-full origin-left"
+                      style={{
+                        backgroundColor: "#C4A47C",
+                        transform: aktif ? "scaleX(1)" : "scaleX(0)",
+                        transition: "transform 0.35s cubic-bezier(0.22,1,0.36,1)",
+                      }}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* GSAP şerit */}
+        <div ref={containerRef} style={{ overflow: "hidden", position: "relative" }}>
+          <div
+            ref={stripRef}
+            style={{ display: "flex", width: `${N * 100}%`, alignItems: "flex-start" }}
+          >
+            {KATEGORILER.map((kat, i) => (
+              <div
+                key={kat.slug}
+                ref={(el) => { panelRefs.current[i] = el; }}
+                style={{ width: `${100 / N}%`, flexShrink: 0 }}
+              >
+                <KategoriPanel kat={kat} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div data-navbar-color="#ffffff" style={{ backgroundColor: "#2C3E2D" }} className="py-20 md:py-28 px-6">
+          <div className="max-w-2xl mx-auto text-center">
+            <p
+              className="font-montserrat text-[10px] font-semibold tracking-[0.3em] uppercase mb-5"
+              style={{ color: "rgba(196,164,124,0.5)" }}
+            >
+              Finestra Cafe
+            </p>
+            <h2 className="font-playfair text-4xl md:text-6xl italic text-white leading-tight mb-4">
+              Siparişinizi
+              <em className="block not-italic" style={{ color: "rgba(255,255,255,0.22)" }}>verelim mi?</em>
+            </h2>
+            <p
+              className="font-montserrat text-sm md:text-base leading-relaxed mb-10 max-w-md mx-auto"
+              style={{ color: "rgba(255,255,255,0.45)" }}
+            >
+              Instagram üzerinden bize ulaşın ya da şubelerimizden birini ziyaret edin.
+            </p>
+            <a
+              href="https://www.instagram.com/finestra_cafe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-10 py-4 font-montserrat font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              style={{ backgroundColor: "#C4A47C", color: "#fff" }}
+            >
+              @finestra_cafe
+            </a>
+          </div>
+        </div>
+
+      </main>
+      <Footer />
+    </>
+  );
+}
