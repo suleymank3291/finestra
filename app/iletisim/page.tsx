@@ -127,8 +127,8 @@ export default function IletisimSayfasi() {
             {SUBELER.map((sube) => (
               <div
                 key={sube.isim}
-                className="flex flex-col gap-3 px-8 py-9 rounded-2xl" style={{ backgroundColor: "#FCFCFC" }}
-                style={{ border: "1px solid rgba(44,62,45,0.1)" }}
+                className="flex flex-col gap-3 px-8 py-9 rounded-2xl"
+                style={{ backgroundColor: "#FCFCFC", border: "1px solid rgba(44,62,45,0.1)" }}
               >
                 <p
                   className="font-montserrat text-[9px] font-semibold tracking-[0.3em] uppercase"
