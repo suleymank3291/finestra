@@ -105,7 +105,7 @@ function MenuContent() {
 
         {/* Sticky kategori sekmesi */}
         <div
-          className="sticky top-0 z-40 mt-8"
+          className="sticky top-0 z-30 mt-8"
           style={{
             backgroundColor: BG,
             borderBottom: "1px solid rgba(44,62,45,0.08)",

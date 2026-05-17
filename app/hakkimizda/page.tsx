@@ -15,7 +15,7 @@ const HAKKIMIZDA_WORDS: { text: string; accent: boolean; color?: string }[] = [
   { text: "çikolata,", accent: false },
   { text: "pasta", accent: false },
   { text: "ve", accent: false },
-  { text: "kahveyi", accent: true, color: "#2C3E2D" },
+  { text: "kahveyi", accent: true, color: "#C4A47C" },
   { text: "aynı", accent: false },
   { text: "mekânda", accent: false },
   { text: "buluşturan", accent: false },
@@ -49,9 +49,9 @@ function NefesYazi() {
   return (
     <section
       ref={sectionRef}
-      data-navbar-color="#C4A47C"
+      data-navbar-color="#ffffff"
       className="flex items-center justify-center py-24 px-6"
-      style={{ minHeight: "50vh", backgroundColor: "#FCFCFC" }}
+      style={{ minHeight: "50vh", backgroundColor: "#2C3E2D" }}
     >
       <div className="max-w-6xl w-full text-center">
         <p className="flex flex-wrap justify-center gap-x-4 gap-y-4">
@@ -66,7 +66,7 @@ function NefesYazi() {
                   : "var(--font-montserrat-face), Arial, sans-serif",
                 fontStyle: word.accent ? "italic" : "normal",
                 fontWeight: word.accent ? 600 : 300,
-                color: word.accent ? word.color : "var(--text-main)",
+                color: word.accent ? word.color : "rgba(255, 255, 255, 0.85)",
               }}
             >
               {word.text}
@@ -76,7 +76,7 @@ function NefesYazi() {
 
         <p
           className="font-montserrat text-sm md:text-base leading-loose max-w-3xl mx-auto mt-16"
-          style={{ color: "var(--text-muted)" }}
+          style={{ color: "rgba(255, 255, 255, 0.65)" }}
         >
           Finestra Cafe çiçek, çikolata, pasta ve kahveyi aynı mekanda birleştirerek misafirlerine eşsiz bir deneyim sunar. Tasarım çiçekler, el yapımı çikolatalar ve yine Finestra mutfağından çıkan özel reçetelerle yapılmış pastalarıyla doğal ve sağlıklı ürünler ortaya koyar. Espresso ve Türk kahvesi çeşitleri, soğuk içecekler ve artizan çaylar ile keyifli vakit geçirmeniz için beklentilerinizin ötesinde bir hizmet sunmayı amaçlayan Finestra Cafe'de ürünleri paket olarak da alabilirsiniz.
         </p>
@@ -172,9 +172,9 @@ export default function HakkimizdaSayfasi() {
 
         {/* Bölüm 4: Sol yazı, sağ görsel */}
         <section
-          data-navbar-color="#ffffff"
+          data-navbar-color="#2C3E2D"
           className="min-h-screen flex items-center"
-          style={{ backgroundColor: "#2C3E2D" }}
+          style={{ backgroundColor: "var(--bg-color)" }}
         >
           <div className="w-full max-w-7xl mx-auto px-6 md:px-16 py-24 md:py-32 flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
 
@@ -196,12 +196,13 @@ export default function HakkimizdaSayfasi() {
             <div className="w-full md:w-1/2 flex flex-col justify-center">
               <p
                 className="font-montserrat text-[10px] font-semibold tracking-[0.35em] uppercase mb-5"
-                style={{ color: "rgba(196,164,124,0.7)" }}
+                style={{ color: "#C4A47C" }}
               >
                 Finestra Tadi
               </p>
               <h2
-                className="font-playfair text-5xl md:text-7xl italic leading-tight mb-4 text-white"
+                className="font-playfair text-5xl md:text-7xl italic leading-tight mb-4"
+                style={{ color: "var(--primary-accent)" }}
               >
                 Lezzeti
                 <span className="block">Yakalayın</span>
@@ -209,7 +210,7 @@ export default function HakkimizdaSayfasi() {
               <div className="h-[2px] w-12 rounded-full mb-8" style={{ backgroundColor: "#C4A47C" }} />
               <p
                 className="font-montserrat text-sm md:text-base leading-loose"
-                style={{ color: "rgba(255,255,255,0.55)" }}
+                style={{ color: "var(--text-muted)" }}
               >
                 Yıllar sonra dahi aldığınız bir koku, tattığınız bir lezzet sizi mutluluk duyduğunuz bir hatıraya götürür. Finestra, tecrübe edilmiş özel reçetelerle, standart ve nitelikli malzeme kalitemizden ödün vermeden, yıllar sonra dahi aynı lezzeti tadabileceğiniz pastaları hassasiyetle üretmekten mutluluk duyar. Bir araya getirdiğimiz malzemeler sizi mutlu edecek bir melodinin uyumlu notaları gibi usta ellerle severek harmanlanır. Gayemiz bizim pastalarımızı tattığınızda yüzünüzde unutulmaz bir tebessümün oluştuğunu görmektir. Mutluluk veren anlar ve mutluluğu hatırlatan anılar için tat hafızanıza saygı duyuyoruz.
               </p>

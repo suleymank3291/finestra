@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -122,88 +124,110 @@ export default function IletisimSayfasi() {
             </div>
           </div>
 
-          {/* Üç şube kutusu */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            {SUBELER.map((sube) => (
-              <div
-                key={sube.isim}
-                className="flex flex-col gap-3 px-8 py-9 rounded-2xl"
-                style={{ backgroundColor: "#FCFCFC", border: "1px solid rgba(44,62,45,0.1)" }}
-              >
-                <p
-                  className="font-montserrat text-[9px] font-semibold tracking-[0.3em] uppercase"
-                  style={{ color: "#C4A47C" }}
-                >
-                  Şube
-                </p>
-                <h2
-                  className="font-playfair text-2xl italic"
-                  style={{ color: "var(--primary-accent)" }}
-                >
-                  {sube.isim}
-                </h2>
-                <div className="h-px w-8" style={{ backgroundColor: "rgba(196,164,124,0.4)" }} />
-                <p
-                  className="font-montserrat text-sm leading-relaxed"
-                  style={{ color: "var(--text-main)" }}
-                >
-                  {sube.adres}
-                </p>
-                <p className="font-montserrat text-xs" style={{ color: "var(--text-muted)" }}>
-                  {sube.ilce}
-                </p>
-                {sube.teller.map((tel) => (
-                  <a
-                    key={tel}
-                    href={`tel:${tel.replace(/\s/g, "")}`}
-                    className="font-montserrat text-sm font-medium transition-colors duration-300"
-                    style={{ color: "var(--primary-accent)" }}
-                  >
-                    {tel}
-                  </a>
-                ))}
-                {sube.not && (
-                  <p className="font-montserrat text-xs" style={{ color: "#C4A47C" }}>
-                    {sube.not}
-                  </p>
-                )}
-                <a
-                  href={sube.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-auto pt-5 inline-flex items-center gap-2 font-montserrat text-xs font-medium tracking-widest uppercase pb-0.5 border-b border-current self-start transition-colors duration-300"
-                  style={{ color: "var(--text-muted)" }}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  Yol Tarifi Al
-                </a>
-              </div>
-            ))}
-          </div>
-
-          {/* Üç harita */}
+          {/* Şubeler ve Haritalar */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {SUBELER.map((sube) => (
-              <div
-                key={sube.isim}
-                className="overflow-hidden rounded-2xl"
-                style={{ height: "260px" }}
-              >
-                <iframe
-                  src={sube.embedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title={sube.isim}
-                />
-              </div>
-            ))}
+            {SUBELER.map((sube, index) => {
+              // Masaüstünde kutular yan yana (Row 1), haritalar yan yana (Row 2) şeklinde dizilsin diye CSS Order kullanıyoruz
+              // Mobilde ise doğal HTML akışıyla: Kutu 1 -> Harita 1, Kutu 2 -> Harita 2 şeklinde sıralanır
+              const boxOrderClass = index === 0 ? "md:order-1" : index === 1 ? "md:order-2" : "md:order-3";
+              const mapOrderClass = index === 0 ? "md:order-4" : index === 1 ? "md:order-5" : "md:order-6";
+
+              return (
+                <div key={sube.isim} className="contents">
+                  {/* Şube Kutusu */}
+                  <div
+                    className={`flex flex-col gap-3 px-8 py-9 rounded-2xl ${boxOrderClass}`}
+                    style={{ backgroundColor: "#FCFCFC", border: "1px solid rgba(44,62,45,0.1)" }}
+                  >
+                    <p
+                      className="font-montserrat text-[9px] font-semibold tracking-[0.3em] uppercase"
+                      style={{ color: "#C4A47C" }}
+                    >
+                      Şube
+                    </p>
+                    <h2
+                      className="font-playfair text-2xl italic"
+                      style={{ color: "var(--primary-accent)" }}
+                    >
+                      {sube.isim}
+                    </h2>
+                    <div className="h-px w-8" style={{ backgroundColor: "rgba(196,164,124,0.4)" }} />
+                    <p
+                      className="font-montserrat text-sm leading-relaxed"
+                      style={{ color: "var(--text-main)" }}
+                    >
+                      {sube.adres}
+                    </p>
+                    <p className="font-montserrat text-xs" style={{ color: "var(--text-muted)" }}>
+                      {sube.ilce}
+                    </p>
+                    {sube.teller.map((tel) => (
+                      <a
+                        key={tel}
+                        href={`tel:${tel.replace(/\s/g, "")}`}
+                        className="font-montserrat text-sm font-medium transition-colors duration-300"
+                        style={{ color: "var(--primary-accent)" }}
+                      >
+                        {tel}
+                      </a>
+                    ))}
+                    {sube.not && (
+                      <p className="font-montserrat text-xs" style={{ color: "#C4A47C" }}>
+                        {sube.not}
+                      </p>
+                    )}
+
+                    {/* Rezervasyon Yap Butonu */}
+                    <a
+                      href={`tel:${sube.teller[0].replace(/\s/g, "")}`}
+                      className="mt-4 px-5 py-2.5 text-white text-xs font-semibold tracking-wider uppercase rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.04)] text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md self-start"
+                      style={{ 
+                        backgroundColor: index === 0 ? "#2C3E2D" : index === 1 ? "#C4A47C" : "#4A3728" 
+                      }}
+                    >
+                      Rezervasyon Yap
+                    </a>
+
+                    <a
+                      href={sube.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-auto pt-4 inline-flex items-center gap-2 font-montserrat text-xs font-medium tracking-widest uppercase pb-0.5 border-b border-current self-start transition-colors duration-300"
+                      style={{ color: "var(--text-muted)" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = index === 0 ? "#2C3E2D" : index === 1 ? "#C4A47C" : "#4A3728";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "var(--text-muted)";
+                      }}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                      </svg>
+                      Yol Tarifi Al
+                    </a>
+                  </div>
+
+                  {/* Harita Embed */}
+                  <div
+                    className={`overflow-hidden rounded-2xl mb-8 md:mb-0 ${mapOrderClass}`}
+                    style={{ height: "260px" }}
+                  >
+                    <iframe
+                      src={sube.embedUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={sube.isim}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
         </div>

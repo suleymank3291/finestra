@@ -6,6 +6,7 @@ import StorySection from "@/components/sections/StorySection";
 import BreathingText from "@/components/sections/BreathingText";
 import BranchCards from "@/components/sections/BranchCards";
 import FlexAnimation from "@/components/sections/FlexAnimation";
+import SosyalMedya from "@/components/sections/SosyalMedya";
 import CustomerReviews from "@/components/sections/CustomerReviews";
 import Footer from "@/components/Footer";
 
@@ -21,6 +22,7 @@ export default function Home() {
         <BreathingText />
         <BranchCards />
         <FlexAnimation />
+        <SosyalMedya />
         <CustomerReviews />
       </main>
       <Footer />
