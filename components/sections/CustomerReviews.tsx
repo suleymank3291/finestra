@@ -1,5 +1,28 @@
 "use client";
 
+import { useState } from "react";
+
+const SUBELER_YORUM = [
+  {
+    name: "Emek Şubesi",
+    color: "#2C3E2D",
+    bg: "rgba(44,62,45,0.04)",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+Emek/@39.9199164,32.8151086,17z/data=!3m1!4b1!4m6!3m5!1s0x14d34f67c238ad29:0x1b48caad1a9a1705!8m2!3d39.9199123!4d32.8176835!16s%2Fg%2F11scq2zvny?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
+  },
+  {
+    name: "Ümitköy Şubesi",
+    color: "#C4A47C",
+    bg: "rgba(196,164,124,0.06)",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+%C3%9Cmitk%C3%B6y/@39.8953662,32.7098745,17z/data=!3m1!4b1!4m6!3m5!1s0x14d339004515ebf7:0x54ccf74d867265a1!8m2!3d39.8953621!4d32.7124494!16s%2Fg%2F11x_cy_686?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
+  },
+  {
+    name: "Yenimahalle Şubesi",
+    color: "#4A3728",
+    bg: "rgba(74,55,40,0.04)",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+Yenimahalle/@39.9740358,32.7718819,17z/data=!3m1!4b1!4m6!3m5!1s0x14d3490dcdbd7a0b:0x68a5f53c5733ea25!8m2!3d39.9740317!4d32.7744568!16s%2Fg%2F11t5qt07k3?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
+  },
+];
+
 const YORUMLAR = [
   {
     isim: "Ayşenur Esen",
@@ -190,6 +213,8 @@ function YorumKarti({ yorum }: { yorum: typeof YORUMLAR[0] }) {
 }
 
 export default function CustomerReviews() {
+  const [yorumOpen, setYorumOpen] = useState(false);
+
   return (
     <section
       data-navbar-color="#2C3E2D"
@@ -248,16 +273,102 @@ export default function CustomerReviews() {
           Bizi Değerlendirin
         </h3>
         <div className="mt-4 h-[2px] w-12 rounded-full" style={{ backgroundColor: "#C4A47C" }} />
-        <a
-          href="https://www.google.com/maps/place/Finestra+Emek/@39.9199164,32.8151086,17z/data=!3m1!4b1!4m6!3m5!1s0x14d34f67c238ad29:0x1b48caad1a9a1705!8m2!3d39.9199123!4d32.8176835!16s%2Fg%2F11scq2zvny?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => setYorumOpen(true)}
           className="mt-6 inline-flex items-center gap-3 px-8 py-4 text-white font-montserrat text-xs tracking-widest uppercase rounded-full shadow-lg transition-all duration-300 hover:-translate-y-0.5"
           style={{ backgroundColor: "var(--primary-accent)" }}
         >
           Google&apos;da Yorum Yaz
-        </a>
+        </button>
       </div>
+
+      {/* Yorum Şube Seçim Pop-up Modalı */}
+      {yorumOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <style dangerouslySetInnerHTML={{ __html: `
+            @keyframes modalFadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes modalScaleUp {
+              from { opacity: 0; transform: scale(0.94); }
+              to { opacity: 1; transform: scale(1); }
+            }
+            .animate-fade-in {
+              animation: modalFadeIn 0.25s ease-out forwards;
+            }
+            .animate-scale-up {
+              animation: modalScaleUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+          `}} />
+
+          <div className="bg-[#FCFCF9] w-full max-w-md rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(44,62,45,0.2)] border border-[#2C3E2D]/10 p-6 md:p-8 animate-scale-up">
+
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={() => setYorumOpen(false)}
+                className="text-[#2C3E2D]/40 hover:text-[#2C3E2D] p-1.5 rounded-full hover:bg-[#2C3E2D]/5 transition-all duration-300 focus:outline-none"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+
+            <div className="text-center mb-6">
+              <span className="font-montserrat text-[10px] font-semibold tracking-[0.25em] text-[#C4A47C] uppercase block mb-1">
+                FİNESTRA CAFE
+              </span>
+              <h3 className="font-playfair text-2xl font-bold text-[#2C3E2D]">
+                Yorum Yapın
+              </h3>
+              <p className="font-montserrat text-xs text-[#2C3E2D]/60 mt-2 leading-relaxed">
+                Yorum yapmak istediğiniz şubemizi seçin. Google Maps üzerinden değerlendirmenizi bırakabilirsiniz.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {SUBELER_YORUM.map((sube) => (
+                <a
+                  key={sube.name}
+                  href={sube.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setYorumOpen(false)}
+                  className="flex items-center justify-between p-4 rounded-xl border border-transparent transition-all duration-300 group hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+                  style={{ backgroundColor: sube.bg }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = sube.color; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "transparent"; }}
+                >
+                  <div className="flex flex-col items-start">
+                    <span className="font-playfair text-lg font-bold transition-colors duration-300" style={{ color: sube.color }}>
+                      {sube.name}
+                    </span>
+                    <span className="font-montserrat text-xs text-[#2C3E2D]/50 mt-0.5 group-hover:text-[#2C3E2D]/70 transition-colors">
+                      Google Maps&apos;te Değerlendir
+                    </span>
+                  </div>
+
+                  <div className="p-2 rounded-full text-white transition-all duration-300 group-hover:scale-110" style={{ backgroundColor: sube.color }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+
+            <div className="text-center mt-6 pt-4 border-t border-[#2C3E2D]/5">
+              <p className="font-montserrat text-[10px] text-[#2C3E2D]/40 uppercase tracking-wider">
+                Finestra Cafe &bull; Google Yorumları
+              </p>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       <style>{`
         @keyframes reviewLeft {
