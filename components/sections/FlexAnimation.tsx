@@ -355,7 +355,7 @@ export default function FlexAnimation() {
         }}
       >
         <Image
-          src="/media/cat-2.jpg"
+          src="/media/cat-2.webp"
           alt="Finestra"
           fill
           className="object-cover"

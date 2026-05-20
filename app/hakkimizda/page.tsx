@@ -103,7 +103,7 @@ export default function HakkimizdaSayfasi() {
             <div className="w-full md:w-1/2 shrink-0">
               <div className="overflow-hidden" style={{ borderRadius: "20px", aspectRatio: "4/5" }}>
                 <Image
-                  src="/media/cat-2.jpg"
+                  src="/media/cat-2.webp"
                   alt="Finestra Hakkında"
                   fill={false}
                   width={800}
@@ -147,7 +147,7 @@ export default function HakkimizdaSayfasi() {
           style={{ height: "60vh", minHeight: "400px" }}
         >
           <Image
-            src="/media/hero-2.jpg"
+            src="/media/hero-2.webp"
             alt="Finestra"
             fill
             className="object-cover"
@@ -182,7 +182,7 @@ export default function HakkimizdaSayfasi() {
             <div className="w-full md:w-1/2 shrink-0">
               <div className="overflow-hidden" style={{ borderRadius: "20px", aspectRatio: "4/5" }}>
                 <Image
-                  src="/media/cat-7.jpg"
+                  src="/media/cat-7.webp"
                   alt="Finestra Tadı"
                   fill={false}
                   width={800}

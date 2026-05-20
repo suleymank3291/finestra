@@ -9,7 +9,7 @@ const CATEGORIES = [
   {
     name: "Kahvaltılıklar & Ana Yemekler",
     slug: "kahvaltiliklar-ana-yemekler",
-    thumbnail: "/media/kahvalti_r.jpg",
+    thumbnail: "/media/kahvalti_r.webp",
     videos: ["/media/kahvalti1.mp4", "/media/kahvalti2.mp4"],
     videoStartTimes: [0, 1],   // kahvalti2 → 1. saniyeden başlar
     playbackRate: 1.75,
@@ -17,7 +17,7 @@ const CATEGORIES = [
   {
     name: "Tatlılar & İçecekler",
     slug: "tatlilar-icecekler",
-    thumbnail: "/media/tatli_r.jpg",
+    thumbnail: "/media/tatli_r.webp",
     videos: ["/media/tatli_v1.mp4", "/media/tatli_v2.mp4"],
     videoStartTimes: [0, 0],
     playbackRate: 1,

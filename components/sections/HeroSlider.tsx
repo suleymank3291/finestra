@@ -18,31 +18,31 @@ type Slide = {
 const SLIDES: Slide[] = [
   {
     type: "image",
-    src: "/media/hero-f1.jpg",
+    src: "/media/hero-f1.webp",
     heading: ["Şehrin kalbinde", "bir nefes."],
     sub: "Nitelikli kahve, el yapımı çikolata, taze çiçek.",
   },
   {
     type: "image",
-    src: "/media/hero-f2.jpg",
+    src: "/media/hero-f2.webp",
     heading: ["Her yudumda", "bir hikâye."],
     sub: "Aşıkbaba yöresi çekirdeklerinden demlenen taze kahve.",
   },
   {
     type: "image",
-    src: "/media/hero-f3.jpg",
+    src: "/media/hero-f3.webp",
     heading: ["Doğanın renkleri,", "sofranızda."],
     sub: "Taze çiçekler, özenle hazırlanmış buketler, hediyeler.",
   },
   {
     type: "image",
-    src: "/media/hero-f4.jpg",
+    src: "/media/hero-f4.webp",
     heading: ["El yapımı", "çikolata sanatı."],
     sub: "Her parçada sabır, ustalık ve en seçkin kakao.",
   },
   {
     type: "image",
-    src: "/media/hero-f5.jpg",
+    src: "/media/hero-f5.webp",
     heading: ["Anılarınıza layık", "bir lezzet."],
     sub: "Özel günler için özel reçeteler, Finestra mutfağından.",
   },

@@ -13,14 +13,14 @@ const KATEGORILER = [
   {
     slug: "kahvaltiliklar-ana-yemekler",
     isim: "Kahvaltılıklar & Ana Yemekler",
-    gorsel: "/media/menu-1.jpg",
+    gorsel: "/media/menu-1.webp",
     genislik: 1228,
     yukseklik: 1736,
   },
   {
     slug: "tatlilar-icecekler",
     isim: "Tatlılar & İçecekler",
-    gorsel: "/media/menu-2.jpg",
+    gorsel: "/media/menu-2.webp",
     genislik: 1228,
     yukseklik: 1736,
   },
