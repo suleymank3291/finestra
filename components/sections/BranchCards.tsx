@@ -11,7 +11,7 @@ const BRANCHES = [
     address: "Bişkek (Eski 8) Cad. No:175",
     note: null as string | null,
     video: "/media/branch-emek.mp4",
-    mapsUrl: "https://maps.app.goo.gl/MqHtYpdZYsjFa4YJ8",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+Emek/@39.9199164,32.8151086,17z/data=!3m1!4b1!4m6!3m5!1s0x14d34f67c238ad29:0x1b48caad1a9a1705!8m2!3d39.9199123!4d32.8176835!16s%2Fg%2F11scq2zvny?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
   },
   {
     id: "umitköy",
@@ -20,7 +20,7 @@ const BRANCHES = [
     address: "Ümitköy",
     note: "Pazartesi kapalıdır.",
     video: "/media/branch-umitköy.mp4",
-    mapsUrl: "https://maps.app.goo.gl/N1TcdCSqNVy5Lpy97",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+%C3%9Cmitk%C3%B6y/@39.8953662,32.7098745,17z/data=!3m1!4b1!4m6!3m5!1s0x14d339004515ebf7:0x54ccf74d867265a1!8m2!3d39.8953621!4d32.7124494!16s%2Fg%2F11x_cy_686?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
   },
   {
     id: "yenimahalle",
@@ -29,7 +29,7 @@ const BRANCHES = [
     address: "Mehmet Akif Ersoy Cad. No:3",
     note: null as string | null,
     video: "/media/branch-yenimahalle.mp4",
-    mapsUrl: "https://maps.app.goo.gl/LtaL5zG4QZHj28FWA",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+Yenimahalle/@39.9740358,32.7718819,17z/data=!3m1!4b1!4m6!3m5!1s0x14d3490dcdbd7a0b:0x68a5f53c5733ea25!8m2!3d39.9740317!4d32.7744568!16s%2Fg%2F11t5qt07k3?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
   },
 ];
 

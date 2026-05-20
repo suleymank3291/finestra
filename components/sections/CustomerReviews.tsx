@@ -247,8 +247,9 @@ export default function CustomerReviews() {
         >
           Bizi Değerlendirin
         </h3>
+        <div className="mt-4 h-[2px] w-12 rounded-full" style={{ backgroundColor: "#C4A47C" }} />
         <a
-          href="https://maps.app.goo.gl/LtaL5zG4QZHj28FWA"
+          href="https://www.google.com/maps/place/Finestra+Emek/@39.9199164,32.8151086,17z/data=!3m1!4b1!4m6!3m5!1s0x14d34f67c238ad29:0x1b48caad1a9a1705!8m2!3d39.9199123!4d32.8176835!16s%2Fg%2F11scq2zvny?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D"
           target="_blank"
           rel="noopener noreferrer"
           className="mt-6 inline-flex items-center gap-3 px-8 py-4 text-white font-montserrat text-xs tracking-widest uppercase rounded-full shadow-lg transition-all duration-300 hover:-translate-y-0.5"

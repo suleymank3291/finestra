@@ -25,7 +25,7 @@ const SUBELER = [
     ilce: "Emek, Ankara",
     teller: ["0 533 499 76 78"],
     not: null as string | null,
-    mapsUrl: "https://maps.app.goo.gl/MqHtYpdZYsjFa4YJ8",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+Emek/@39.9199164,32.8151086,17z/data=!3m1!4b1!4m6!3m5!1s0x14d34f67c238ad29:0x1b48caad1a9a1705!8m2!3d39.9199123!4d32.8176835!16s%2Fg%2F11scq2zvny?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
     embedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3059.9597745122906!2d32.81510321142457!3d39.9199163856088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34f67c238ad29%3A0x1b48caad1a9a1705!2sFinestra%20Emek!5e0!3m2!1str!2str!4v1778181053155!5m2!1str!2str",
   },
@@ -35,7 +35,7 @@ const SUBELER = [
     ilce: "Çankaya, Ankara",
     teller: ["0 501 542 06 06"],
     not: "Pazartesi kapalıdır." as string | null,
-    mapsUrl: "https://maps.app.goo.gl/N1TcdCSqNVy5Lpy97",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+%C3%9Cmitk%C3%B6y/@39.8953662,32.7098745,17z/data=!3m1!4b1!4m6!3m5!1s0x14d339004515ebf7:0x54ccf74d867265a1!8m2!3d39.8953621!4d32.7124494!16s%2Fg%2F11x_cy_686?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
     embedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3061.056548937365!2d32.70986911142349!3d39.895366187087916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d339004515ebf7%3A0x54ccf74d867265a1!2zRmluZXN0cmEgw5xtaXRrw7Z5!5e0!3m2!1str!2str!4v1778181074513!5m2!1str!2str",
   },
@@ -45,7 +45,7 @@ const SUBELER = [
     ilce: "Yenimahalle, Ankara",
     teller: ["0 312 341 90 90", "0 552 325 44 44"],
     not: null as string | null,
-    mapsUrl: "https://maps.app.goo.gl/LtaL5zG4QZHj28FWA",
+    mapsUrl: "https://www.google.com/maps/place/Finestra+Yenimahalle/@39.9740358,32.7718819,17z/data=!3m1!4b1!4m6!3m5!1s0x14d3490dcdbd7a0b:0x68a5f53c5733ea25!8m2!3d39.9740317!4d32.7744568!16s%2Fg%2F11t5qt07k3?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
     embedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3057.540019032558!2d32.77187651142705!3d39.97403578234585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d3490dcdbd7a0b%3A0x68a5f53c5733ea25!2sFinestra%20Yenimahalle!5e0!3m2!1str!2str!4v1778181097607!5m2!1str!2str",
   },
